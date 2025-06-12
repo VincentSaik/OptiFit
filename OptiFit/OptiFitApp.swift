@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct OptiFitApp: App {
+    @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if isLoggedIn {
+                ContentView()
+            } else {
+                LoginView(isLoggedIn: $isLoggedIn)
+            }
         }
     }
 }
