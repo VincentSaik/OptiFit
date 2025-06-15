@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var workoutVM = WorkoutViewModel()
+
     var body: some View {
         TabView {
             WorkoutView()
+                .environmentObject(workoutVM)
                 .tabItem {
                     Image(systemName: "figure.walk")
                     Text("Workouts")
                 }
 
             ProgressView()
+                .environmentObject(workoutVM)
                 .tabItem {
                     Image(systemName: "chart.bar.fill")
                     Text("Progress")
