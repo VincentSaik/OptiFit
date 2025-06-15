@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CustomizeWorkoutView: View {
+    @EnvironmentObject var viewModel: WorkoutViewModel
     @State private var goal = "Muscle Gain"
     @State private var level = "Intermediate"
     @State private var split = "Full Body"
@@ -61,7 +62,7 @@ struct CustomizeWorkoutView: View {
                 .cornerRadius(10)
 
                 if showGeneratedPlan {
-                    NavigationLink(destination: WorkoutPlanView(planTitle: split, workoutPlan: generatedWorkout)) {
+                    NavigationLink(destination: WorkoutPlanView(planTitle: split, workoutPlan: generatedWorkout).environmentObject(viewModel)) {
                         Text("View \(split) Plan")
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -77,6 +78,7 @@ struct CustomizeWorkoutView: View {
 }
 
 struct WorkoutPlanView: View {
+    @EnvironmentObject var viewModel: WorkoutViewModel
     let planTitle: String
     let workoutPlan: [WorkoutDay]
     @State private var workoutName: String = ""
@@ -103,8 +105,8 @@ struct WorkoutPlanView: View {
                 }
 
                 Button("Save Workout Plan") {
+                    viewModel.savePlan(name: workoutName.isEmpty ? planTitle : workoutName, days: workoutPlan)
                     saved = true
-                    // Implement storage logic here (e.g., UserDefaults, CoreData, or file)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
